@@ -1,0 +1,29 @@
+digraph SimpleMTT {
+	rankdir=LR;
+	
+	// Raw Market Data	
+	DDL_Feed[shape=diamond,color="red"]	
+	Other_Possible_Sources[shape=diamond,color="red"]	
+	// Tools
+	node [shape=record,color="blue"]
+	
+	FX_DDL[label="{FX Data Tool|{#Stream#|G|Market Consistent|#Economy#|#SubModel#}}"]
+	FX_Calibration[label="{FX Sorter Tool|{#Stream#|G|Market Consistent|#Economy#|#SubModel#}}"]
+	
+	//Inputs and Outputs
+	node [shape=record,color="green"]	
+	
+	FX_Data[label="{MarketData.FX|{#Stream#|G|Market Consistent|#Economy#|#SubModel#}}"]
+	Assumptions[label="{Econ.FX|{B+H_Standard|G|Real World|ALL|FEA_VolTargets}}}",color="purple"]	
+	OutputFXModel[label="{Econ.FX|{#Stream#|G|Market Consistent|#Economy#|#SubModel#}}}"]
+	
+	
+	
+	Other_Possible_Sources -> FX_DDL
+	DDL_Feed -> FX_DDL -> FX_Data
+	FX_Data -> FX_Calibration[style="dotted"]
+	Assumptions -> FX_Calibration[label="'Volatility'"]
+	FX_Calibration -> OutputFXModel
+			
+	
+}

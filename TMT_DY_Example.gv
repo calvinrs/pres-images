@@ -1,0 +1,38 @@
+digraph SimpleMTT {
+	rankdir=LR;
+	
+	// Raw Market Data	
+	//DDL_Feed[shape=diamond,color="red"]	
+	//Other_Possible_Sources[shape=diamond,color="red"]	
+	
+	// Tools
+	node [shape=record,color="blue"]
+	
+	DY_DDL_A1[label="{DY Data Tool|{B+H_Market|G|Market Consistent|E_GBP|NULL}}"]
+	
+	DY_Calibration[label="{DY Sorter Tool|{B+H_Standard|G|Real World|E_GBP|NULL}}"]
+	
+	//Inputs and Outputs
+	node [shape=record,color="green"]	
+	
+	DY_Data_A1[label="{MarketData.DY|{B+H_Market|G|Market Consistent|E_GBP|NULL}}"]
+	
+	
+	Assumptions[label="{Assets.EQ.PEA.DY|{Best_Views|G|Real World|E_GBP|FEA_VolTargets}}}",color="purple"]	
+	ZBound[label="{Assumptions.PEA.ZBound|{Best_Views|G|Real World|E_ALL|FEA_VolTargets}}}",color="purple"]	
+	
+	
+	OutputDYModel[label="{Assets.EQ.PEA.DY|{#Stream#|G|#Calibration Type#|#Asset#|#SubModel#}}}"]
+	
+	
+	
+	//Other_Possible_Sources -> DY_DDL
+	//DDL_Feed -> DY_DDL_A1 -> DY_Data
+	DY_DDL_A1 -> DY_Data_A1
+	DY_Data_A1 -> DY_Calibration[label="'Target Data'";style="dotted"]
+	Assumptions -> DY_Calibration[label="'Long Term'"]
+	ZBound -> DY_Calibration[label="'Zero Bound'"]
+	DY_Calibration -> OutputDYModel
+			
+	
+}
